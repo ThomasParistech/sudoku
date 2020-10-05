@@ -8,30 +8,32 @@
 
 class Cell
 {
-    public:
-        Cell();
-        virtual ~Cell();
+public:
+    Cell();
+    virtual ~Cell();
 
-        enum TO_DO { NOTHING, SETVALUE, PAIR};
+    enum TO_DO
+    {
+        NOTHING,
+        SETVALUE,
+        PAIR
+    };
 
-        int value;
-        int nbrPossible;
+    int value;
+    int nbrPossible;
 
-        int idRow, idCol; //0,1,2,3,...7,8
-        int idRowBlock, idColBlock; //0,1,2
+    int idRow, idCol;           //0,1,2,3,...7,8
+    int idRowBlock, idColBlock; //0,1,2
 
-        std::array<bool,9> possible;
+    std::array<bool, 9> possible;
 
+    void dispPossible();
+    int findNew();
+    TO_DO decreaseNbr(int val);
+    void setValue(int val);
+    void init(int val);
 
-        void dispPossible();
-        int findNew();
-        TO_DO decreaseNbr(int val);
-        void setValue(int val);
-        void init(int val);
-
-        bool isFree();
+    bool isFree();
 };
-
-
 
 #endif // CELL_H

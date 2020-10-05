@@ -8,22 +8,28 @@
 #include <string>
 class Line
 {
-    public:
+public:
+    enum TO_DO
+    {
+        NOTHING,
+        SETVALUE,
+        LOCK_SQUARE0,
+        LOCK_SQUARE1,
+        LOCK_SQUARE2
+    };
 
-        enum TO_DO { NOTHING, SETVALUE, LOCK_SQUARE0, LOCK_SQUARE1, LOCK_SQUARE2};
+    Line();
+    virtual ~Line();
 
-        Line();
-        virtual ~Line();
+    std::array<std::array<int, 3>, 9> nbrPossible;
+    int idLine;
+    bool isRow;
+    int getTotalNbrPossible(int val) { return nbrPossible[val][0] + nbrPossible[val][1] + nbrPossible[val][2]; }
 
-        std::array<std::array<int, 3>, 9> nbrPossible;
-        int idLine;
-        bool isRow;
-		int getTotalNbrPossible(int val){return nbrPossible[val][0]+nbrPossible[val][1]+nbrPossible[val][2];}
-
-		void dispLinePossible(int val, std::string name);
-		TO_DO decreaseNbr(int val, int idBlock);
-        void decreaseNbrInit(int val, int idBlock);
-        void setValue(int val);
+    void dispLinePossible(int val, std::string name);
+    TO_DO decreaseNbr(int val, int idBlock);
+    void decreaseNbrInit(int val, int idBlock);
+    void setValue(int val);
 };
 
 #endif // LINE_H
