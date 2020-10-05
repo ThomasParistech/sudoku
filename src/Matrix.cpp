@@ -1,10 +1,5 @@
 #include "Matrix.h"
 
-Matrix::~Matrix()
-{
-    //dtor
-}
-
 Matrix::Matrix()
 {
     //ctor
@@ -39,38 +34,27 @@ Matrix::Matrix()
 CellToAdd Matrix::findNewInSquare(int val, int i0, int j0)
 {
     for (int i = 3 * i0; i < 3 * (i0 + 1); i++)
-    {
         for (int j = 3 * j0; j < 3 * (j0 + 1); j++)
-        {
             if (cells[i][j].possible[val])
-            {
                 return CellToAdd(i, j, val);
-            }
-        }
-    }
+
     return CellToAdd();
 }
 
 CellToAdd Matrix::findNewInCol(int val, int idCol)
 {
     for (int i = 0; i < 9; i++)
-    {
         if (cells[i][idCol].possible[val])
-        {
             return CellToAdd(i, idCol, val);
-        }
-    }
+
     return CellToAdd();
 }
 CellToAdd Matrix::findNewInRow(int val, int idRow)
 {
     for (int j = 0; j < 9; j++)
-    {
         if (cells[idRow][j].possible[val])
-        {
             return CellToAdd(idRow, j, val);
-        }
-    }
+
     return CellToAdd();
 }
 
@@ -343,21 +327,12 @@ std::vector<Cell *> Matrix::getSquareWithoutPair(int i0, int j0, int idRow, int 
 {
     std::vector<Cell *> cellsUpdated;
     for (int i = 3 * i0; i < 3 * (i0 + 1); i++)
-    {
         for (int j = 3 * j0; j < 3 * (j0 + 1); j++)
-        {
             if ((j != idCol) || (i != idRow))
-            {
                 if ((j != j1) || (i != i1))
-                {
                     if (cells[i][j].isFree())
-                    {
                         cellsUpdated.push_back(&cells[i][j]);
-                    }
-                }
-            }
-        }
-    }
+
     return cellsUpdated;
 }
 
@@ -365,20 +340,18 @@ std::vector<Cell *> Matrix::getRowWithoutPair(int iRow, int j1, int j2)
 {
     std::vector<Cell *> cellsUpdated;
     for (int j = 0; j < 9; j++)
-    {
         if (j != j1 && j != j2 && cells[iRow][j].isFree())
             cellsUpdated.push_back(&cells[iRow][j]);
-    }
+
     return cellsUpdated;
 }
 std::vector<Cell *> Matrix::getColWithoutPair(int jCol, int i1, int i2)
 {
     std::vector<Cell *> cellsUpdated;
     for (int i = 0; i < 9; i++)
-    {
         if (i != i1 && i != i2 && cells[i][jCol].isFree())
             cellsUpdated.push_back(&cells[i][jCol]);
-    }
+
     return cellsUpdated;
 }
 
@@ -387,23 +360,18 @@ std::vector<Cell *> Matrix::getAllNeighbors(int iRow, int jCol)
     std::vector<Cell *> cellsUpdated;
     int i0 = int(iRow / 3), j0 = int(jCol / 3);
     for (int k = 0; k < 9; k++)
-    {
         if (cells[iRow][k].isFree())
             cellsUpdated.push_back(&cells[iRow][k]); //row
-    }
+
     for (int k = 0; k < 9; k++)
-    {
         if (cells[k][jCol].isFree())
             cellsUpdated.push_back(&cells[k][jCol]); //col
-    }
+
     for (int i = 3 * i0; i < 3 * (i0 + 1); i++)
-    {
         for (int j = 3 * j0; j < 3 * (j0 + 1); j++)
-        {
             if (cells[i][j].isFree())
                 cellsUpdated.push_back(&cells[i][j]); //square
-        }
-    }
+
     return cellsUpdated;
 }
 
@@ -411,32 +379,22 @@ std::vector<Cell *> Matrix::getSquareLockedRow(int i0, int j0, int iRow)
 {
     std::vector<Cell *> cellsUpdated;
     for (int i = 3 * i0; i < 3 * (i0 + 1); i++)
-    {
         if (i != iRow)
-        {
             for (int j = 3 * j0; j < 3 * (j0 + 1); j++)
-            {
                 if (cells[i][j].isFree())
                     cellsUpdated.push_back(&cells[i][j]); //square
-            }
-        }
-    }
+
     return cellsUpdated;
 }
 std::vector<Cell *> Matrix::getSquareLockedCol(int i0, int j0, int jCol)
 {
     std::vector<Cell *> cellsUpdated;
     for (int j = 3 * j0; j < 3 * (j0 + 1); j++)
-    {
         if (j != jCol)
-        {
             for (int i = 3 * i0; i < 3 * (i0 + 1); i++)
-            {
                 if (cells[i][j].isFree())
                     cellsUpdated.push_back(&cells[i][j]); //square
-            }
-        }
-    }
+
     return cellsUpdated;
 }
 
@@ -445,13 +403,10 @@ std::vector<Cell *> Matrix::getRowLockedSquare(int i0, int j0, int idHoriz)
     std::vector<Cell *> cellsUpdated;
     int iRow = 3 * i0 + idHoriz;
     for (int j = 0; j < 9; j++)
-    {
         if (int(j / 3) != j0)
-        {
             if (cells[iRow][j].isFree())
                 cellsUpdated.push_back(&cells[iRow][j]); //row
-        }
-    }
+
     return cellsUpdated;
 }
 
@@ -460,13 +415,10 @@ std::vector<Cell *> Matrix::getColLockedSquare(int i0, int j0, int idVert)
     std::vector<Cell *> cellsUpdated;
     int jCol = 3 * j0 + idVert;
     for (int i = 0; i < 9; i++)
-    {
         if (int(i / 3) != i0)
-        {
             if (cells[i][jCol].isFree())
                 cellsUpdated.push_back(&cells[i][jCol]); //col
-        }
-    }
+
     return cellsUpdated;
 }
 

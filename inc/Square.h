@@ -22,18 +22,19 @@ public:
     };
 
     Square();
-    virtual ~Square();
+    ~Square() = default;
 
-    std::array<std::array<int, 3>, 9> nbrPossibleHoriz;
-    std::array<std::array<int, 3>, 9> nbrPossibleVert;
+    std::array<std::array<int, 3>, 9> nbrPossibleHoriz; // For each value:
+                                                        // number of possibilties per 3-row
+    std::array<std::array<int, 3>, 9> nbrPossibleVert;  // For each value:
+                                                        // number of possibilties per 3-col
     int idRowBlock, idColBlock;
 
     int getTotalNbrPossible(int val) { return nbrPossibleHoriz[val][0] + nbrPossibleHoriz[val][1] + nbrPossibleHoriz[val][2]; }
 
     void dispSquarePossible(int valFromOneToNine);
     TO_DO decreaseNbr(int val, int i0, int j0, int idRow, int idCol);
-    void decreaseHorizNbrInit(int val, int idHoriz);
-    void decreaseVertNbrInit(int val, int idVert);
+
     void setValue(int val);
 };
 

@@ -27,7 +27,7 @@ class Matrix
 {
 public:
     Matrix();
-    virtual ~Matrix();
+    ~Matrix() = default;
 
     std::array<std::array<Cell, 9>, 9> cells;
     std::array<Line, 9> rows, cols;

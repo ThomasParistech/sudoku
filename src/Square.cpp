@@ -13,6 +13,7 @@ Square::Square()
 	}
 }
 
+// find the id of the only non empty block
 int getIFullSquare(std::array<int, 3> nbrPossibleBlock, int idBlock)
 {
 	int iEmpty = -1, iFull = -1;
@@ -44,16 +45,15 @@ void Square::dispSquarePossible(int valFromOneToNine)
 
 Square::TO_DO Square::decreaseNbr(int val, int i0, int j0, int idRow, int idCol)
 { // updates and looks for locked cells
-	int idHoriz = idRow - 3 * i0;
-	int idVert = idCol - 3 * j0;
-	decreaseHorizNbrInit(val, idHoriz);
-	decreaseVertNbrInit(val, idVert);
+	const int idHoriz = idRow - 3 * i0;
+	const int idVert = idCol - 3 * j0;
+	nbrPossibleHoriz[val][idHoriz]--;
+	nbrPossibleVert[val][idVert]--;
 
 	if (getTotalNbrPossible(val) == 1)
-	{
 		return SETVALUE;
-	}
-	else if (nbrPossibleHoriz[val][idHoriz] == 0)
+
+	if (nbrPossibleHoriz[val][idHoriz] == 0)
 	{
 		switch (getIFullSquare(nbrPossibleHoriz[val], idHoriz))
 		{
@@ -78,15 +78,6 @@ Square::TO_DO Square::decreaseNbr(int val, int i0, int j0, int idRow, int idCol)
 		}
 	}
 	return NOTHING;
-}
-
-void Square::decreaseHorizNbrInit(int val, int idHoriz)
-{ //  int idHoriz = idRow - 3*i0;
-	nbrPossibleHoriz[val][idHoriz]--;
-}
-void Square::decreaseVertNbrInit(int val, int idVert)
-{ //int idVert = idCol - 3*j0;
-	nbrPossibleVert[val][idVert]--;
 }
 
 void Square::setValue(int val)

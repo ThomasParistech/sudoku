@@ -5,36 +5,15 @@ Cell::Cell()
     //ctor
     value = -1; // between 0 and 8. it's shifted
     nbrPossible = 9;
-    for (int i = 0; i < 9; i++)
-    {
-        possible[i] = true;
-    }
+    possible.fill(true);
 }
 
-Cell::~Cell()
-{
-    //dtor
-}
-
-void Cell::dispPossible()
-{
-    std::cout << "Cell(" << idRow << "," << idCol << ") : ";
-    for (int i = 0; i < 9; i++)
-    {
-        if (possible[i])
-            std::cout << i + 1 << "/";
-    }
-    std::cout << "\n";
-}
 int Cell::findNew()
 { // get the value to set
     for (int val = 0; val < 9; val++)
-    {
         if (possible[val])
-        {
             return val;
-        }
-    }
+
     return -1;
 }
 
