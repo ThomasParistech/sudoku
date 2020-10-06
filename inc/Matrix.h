@@ -48,7 +48,10 @@ public:
 
     void decreaseNbr(int val, Cell *cell, std::vector<CellToAdd> &cellsToAdd, std::vector<CellToLock> &cellsToLock, std::vector<Cell *> &cellsToPair);
     void setValue(CellToAdd c);
+
+    /// @brief Propagates new contraint on a digit to a vector of cells
     void update(int valRestrict, std::vector<Cell *> cellsUpdated);
+
     std::vector<Cell *> getSquareWithoutPair(int i0, int j0, int idRow, int idCol, int i1, int j1);
     std::vector<Cell *> getRowWithoutPair(int iRow, int j1, int j2);
     std::vector<Cell *> getColWithoutPair(int jCol, int i1, int i2);

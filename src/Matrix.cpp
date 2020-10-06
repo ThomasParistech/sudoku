@@ -116,6 +116,9 @@ void Matrix::decreaseNbr(int val, Cell *cell, std::vector<CellToAdd> &cellsToAdd
             cellsToAdd.push_back(findNewInCol(val, j));
             break;
         case Line::TO_DO::LOCK_SQUARE0:
+            // Column is in j0=jBlock
+            // The only non empty third of the column is block i0=0
+            // Recover the two "third of the column" that are next to it : i0 and other j in j0
             cellsToLock.push_back(std::make_pair(val, getSquareLockedCol(0, jBlock, j)));
             break;
         case Line::TO_DO::LOCK_SQUARE1:

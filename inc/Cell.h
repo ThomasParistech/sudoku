@@ -1,5 +1,5 @@
-#ifndef CELL_H
-#define CELL_H
+#ifndef OLD_CELL_H
+#define OLD_CELL_H
 
 #include <string>
 #include <iostream>
@@ -49,4 +49,4 @@ inline std::ostream &operator<<(std::ostream &ostr, const Cell &cell)
     return ostr;
 }
 
-#endif // CELL_H
+#endif // OLD_CELL_H
