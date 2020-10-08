@@ -171,6 +171,7 @@ void Matrix::decreaseNbr(int val, Cell *cell, std::vector<CellToAdd> &cellsToAdd
 
 void Matrix::updateXWingRow(int val, Line &row, std::vector<CellToLock> &cellsToLock)
 {
+    // Find the two locations for val contained in the row
     int j1 = -1, j2 = -1;
     int iRow = row.idLine;
     for (int j = 0; j < 9; j++)
@@ -186,6 +187,7 @@ void Matrix::updateXWingRow(int val, Line &row, std::vector<CellToLock> &cellsTo
             }
         }
     }
+
     int i2 = xWing[val][j1][j2]; //upper part of xWing, j1 < j2
     if (i2 != -1)
     {
@@ -272,6 +274,8 @@ void Matrix::update(int valRestrict, std::vector<Cell *> cellsUpdated)
     {
         if (c->nbrPossible == 2)
         { // it might have change with all the other updates
+
+            // 1) Retrieve the two possible values
             int k1 = -1, k2 = -1;
             for (int k = 0; k < 9; k++)
             {
@@ -287,6 +291,8 @@ void Matrix::update(int valRestrict, std::vector<Cell *> cellsUpdated)
                 }
             }
 
+            // Look for another pair on the row, then they work together and these two values must be removed
+            // from all the other elements
             //row
             for (int j = 0; j < 9; j++)
             {
@@ -530,12 +536,15 @@ void Matrix::eraseRemainingCandidates(int i, int j)
 void Matrix::doColoring(int val)
 {
     int coloring = 1;
+    // create the color map
+    // If there are n independant paths, there will be 2*n colors
     std::vector<std::vector<int>> coloringPaths(9, std::vector<int>(9));
     std::vector<int> longPathsColour;
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
         {
+            // For each cell without color that can accept the value
             if (coloringPaths[i][j] == 0 && cells[i][j].possible[val])
             {
                 bool realPath = false;
@@ -556,21 +565,25 @@ void Matrix::doColoring(int val)
     std::vector<CellToAdd> cellsToAdd;
     for (int colour : longPathsColour)
     {
-        bool valid1 = true;
+        bool valid1 = true; // True if there's at most one with True Color per row/col
         for (int i = 0; i < 9; i++)
         {
             int countRow = 0, countCol = 0;
             for (int j = 0; j < 9; j++)
             {
+                /// Count how many True colors in the row
                 if (coloringPaths[i][j] == colour)
                     countRow++;
+
+                /// Count how many True colors in the col
                 if (coloringPaths[j][i] == colour)
                     countCol++;
             }
             if (countRow > 1 || countCol > 1)
                 valid1 = false;
         }
-        bool valid2 = true;
+
+        bool valid2 = true; // True if there's at most one with False Color per row/col
         if (valid1)
         {
             for (int i = 0; i < 9; i++)
@@ -578,8 +591,11 @@ void Matrix::doColoring(int val)
                 int countRow = 0, countCol = 0;
                 for (int j = 0; j < 9; j++)
                 {
+                    /// Count how many False colors in the row
                     if (coloringPaths[i][j] == colour + 1)
                         countRow++;
+
+                    /// Count how many False colors in the col
                     if (coloringPaths[j][i] == colour + 1)
                         countCol++;
                 }
@@ -587,6 +603,9 @@ void Matrix::doColoring(int val)
                     valid2 = false;
             }
         }
+
+        // assert (valid1 || valid2)
+        // If one of them isn't valid, then we can set the value!
         if (!valid1 || !valid2)
         {
             for (int i = 0; i < 9; i++)
@@ -650,9 +669,10 @@ void Matrix::spreadColoringPath(int &lengthPath, bool &realPath, int iRow, int j
     if (getColoringNeighbors(iRow, jCol, val, coloringNeighbors))
     {
         coloringPaths[iRow][jCol] = currentColour;
-        currentColour = (currentColour == initColour ? initColour + 1 : initColour);
+        currentColour = (currentColour == initColour ? initColour + 1 : initColour); // Alternate between two colors
         for (auto c : coloringNeighbors)
         {
+            // Keep spreading only if we didnt already see it
             if (coloringPaths[c.first][c.second] == 0)
             {
                 realPath = true;
@@ -663,6 +683,8 @@ void Matrix::spreadColoringPath(int &lengthPath, bool &realPath, int iRow, int j
     }
 }
 
+// For a given value in a given cell, return pairs in the same row/col/square
+// I.e. if this cell is true, then the other are false
 bool Matrix::getColoringNeighbors(int iRow, int jCol, int val, std::vector<std::pair<int, int>> &coloringNeighbors)
 {
     //rows

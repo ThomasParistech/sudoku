@@ -1,4 +1,5 @@
 set(COMMON_SOURCES ${COMMON_SOURCES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/fisherman.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/new_cell.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/new_line.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/new_square.cpp
