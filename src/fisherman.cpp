@@ -17,9 +17,7 @@ bool FisherMan::try_match_pair(short val, int line_id, int i1, int i2, std::vect
     output_lock_info.clear();
     if (!find_fish(fish_path_, pairs_map, i2))
     {
-
-        auto &vec_pairs = pairs_map[i1];
-        vec_pairs.emplace_back(i2, line_id);
+        add_pair(pairs_map, line_id, i1, i2);
         return false;
     }
 
@@ -60,4 +58,13 @@ bool FisherMan::find_fish(std::vector<Pt> &path, const PairsMap &pairs_map, cons
         path.pop_back();
     }
     return false;
+}
+
+void FisherMan::add_pair(PairsMap &pairs_map, int line_id, int i1, int i2)
+{
+    auto &vec_pairs_i1 = pairs_map[i1];
+    vec_pairs_i1.emplace_back(i2, line_id);
+
+    auto &vec_pairs_i2 = pairs_map[i2];
+    vec_pairs_i2.emplace_back(i1, line_id);
 }

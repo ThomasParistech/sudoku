@@ -47,7 +47,11 @@ private:
         int j;
     };
 
-    using PairsMap = std::unordered_map<int, std::vector<Pt>>; ///< All the pairs starting at a given location i
+    using PairsMap = std::unordered_map<int, std::vector<Pt>>; ///< For each location i along the line,
+                                                               ///< get the vector of (j, k) with j the second location
+                                                               ///< along the line and k the id of the new line
+                                                               ///< N.B a pair (a,b) is thus present twice in the map
+                                                               ///< at keys a and b
 
     /// @brief Finds a fish using backtracking
     /// @param path Backtracking path
@@ -56,6 +60,13 @@ private:
     /// end it on i2
     //// @return true if a fish pattern has been found
     bool find_fish(std::vector<Pt> &path, const PairsMap &pairs_map, const int i_target);
+
+    /// @brief Adds pair to the map
+    /// @param pairs_map Available pairs for the fixed desired value
+    /// @param line_id Id of the current line owning the pair
+    /// @param i1 First possible location of the pair
+    /// @param i2 Second possible location of the pair
+    void add_pair(PairsMap &pairs_map, int line_id, int i1, int i2);
 
     std::vector<Pt> fish_path_;
     std::array<PairsMap, 9> pairs_; ///< Map of pairs along the line for each value
