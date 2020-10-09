@@ -42,6 +42,10 @@ public:
                           int i, int j,
                           int &output_id_lock);
 
+    /// @brief Returns true if @p val has only two possibilities along this line
+    /// @param val Digit
+    bool has_only_two_possibilities(short val) const;
+
 private:
     NewLine horizontal_triplets_;
     NewLine vertical_triplets_;

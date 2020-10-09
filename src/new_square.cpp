@@ -42,3 +42,8 @@ NewSquare::Status NewSquare::add_constraint(short val,
 
     return NOTHING;
 }
+
+bool NewSquare::has_only_two_possibilities(short val) const
+{
+    return horizontal_triplets_.has_only_two_possibilities(val);
+}

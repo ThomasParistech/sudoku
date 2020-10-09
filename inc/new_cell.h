@@ -26,13 +26,17 @@ public:
     ~NewCell() = default;
 
     /// @brief Gets the number of available digits
-    size_t get_nbr_candidates();
+    size_t get_nbr_candidates() const;
 
     /// @brief Gets the value of the cell, assuming its value is already known
-    short get_value();
+    short get_value() const;
 
     /// @brief Returns true if the value of the cell is known
-    bool is_set();
+    bool is_set() const;
+
+    /// @brief Returns true if a value is possible
+    /// @param val Value to check
+    bool is_value_possible(short val) const;
 
     /// @brief Indicates that a given digit isn't available anymore
     /// @param val Digit that isn't available anymore (0,1...8)

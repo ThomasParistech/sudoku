@@ -43,11 +43,11 @@ public:
 
     /// @brief Returns true if @p val has been set along this line
     /// @param val Digit
-    bool is_value_set(short val);
+    bool is_value_set(short val) const;
 
     /// @brief Returns true if @p val has only two possibilities along this line
     /// @param val Digit
-    bool has_only_two_possibilities(short val);
+    bool has_only_two_possibilities(short val) const;
 
     /// @brief Indicates that a given digit isn't available anymore
     /// @param val Digit that isn't available anymore (0,1...8)

@@ -16,13 +16,13 @@ NewLine::NewLine()
     }
 }
 
-bool NewLine::is_value_set(short val)
+bool NewLine::is_value_set(short val) const
 {
     const auto it = counts_per_val_.find(val);
     return (it != counts_per_val_.end());
 }
 
-bool NewLine::has_only_two_possibilities(short val)
+bool NewLine::has_only_two_possibilities(short val) const
 {
     const auto it = counts_per_val_.find(val);
     if (it == counts_per_val_.end())
