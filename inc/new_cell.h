@@ -15,9 +15,10 @@ class NewCell
 public:
     enum Status
     {
-        NOTHING,
         SET_VALUE,
-        PAIR
+        PAIR,
+        ALREADY_KNOWN,
+        UPDATED
     };
 
     /// @brief Constructor

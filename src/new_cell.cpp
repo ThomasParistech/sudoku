@@ -39,7 +39,8 @@ bool NewCell::is_value_possible(short val) const
 NewCell::Status NewCell::add_constraint(short val)
 {
     const int success = possible_digits_.erase(val);
-    assert(success != 0);
+    if (success == 0)
+        return ALREADY_KNOWN;
 
     if (possible_digits_.size() == 1)
         return SET_VALUE;
@@ -47,7 +48,7 @@ NewCell::Status NewCell::add_constraint(short val)
     if (possible_digits_.size() == 2)
         return PAIR;
 
-    return NOTHING;
+    return UPDATED;
 }
 
 void NewCell::set_value(short val, std::vector<short> &remaining_digits)

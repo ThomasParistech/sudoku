@@ -4,6 +4,8 @@
  * 2020 Thomas Rouch                                                                                                 *
  *********************************************************************************************************************/
 
+#include <assert.h>
+
 #include "new_line.h"
 
 NewLine::NewLine()
@@ -40,6 +42,7 @@ NewLine::Status NewLine::add_constraint(short val, int i_block, int &output_i_lo
         return NOTHING;
 
     auto &counts = it->second;
+    assert(counts[i_block] != 0);
     counts[i_block]--;
     const int count = counts[0] + counts[1] + counts[2];
     if (count == 1)
