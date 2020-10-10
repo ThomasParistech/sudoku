@@ -19,6 +19,20 @@ public:
     void add_constraint(short val, int key);
 
 private:
+    /// @brief Finds pair of cells along the row that both contains @p val and uses it to find a fish pattern
+    ///
+    /// If a fish pattern is found, the attribute cells_to_lock_ will be updated
+    /// @param val Value
+    /// @param i_row Indice of the row containing the pair of @p val
+    void try_and_find_fish_on_rows(short val, int i_row);
+
+    /// @brief Finds pair of cells along the column that both contains @p val and uses it to find a fish pattern
+    ///
+    /// If a fish pattern is found, the attribute cells_to_lock_ will be updated
+    /// @param val Value
+    /// @param j_col Indice of the column containing the pair of @p val
+    void try_and_find_fish_on_cols(short val, int j_col);
+
     std::array<NewCell, 81> cells_;
     std::array<NewLine, 9> rows_;
     std::array<NewLine, 9> cols_;
