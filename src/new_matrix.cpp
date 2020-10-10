@@ -72,6 +72,33 @@ void NewMatrix::add_constraint(short val, int key)
         break;
     }
 
+    if (row.has_only_two_possibilities(val)) // Fish
+    {
+        std::vector<int> j_pair;
+        const int i0 = 9 * i_row;
+        for (int j = 0; j < 9; j++)
+        {
+            const int new_key = i0 + j;
+            if (cells_[new_key].is_value_possible(val))
+                j_pair.emplace_back(new_key);
+        }
+        assert(j_pair.size() == 2);
+        row_fish_.try_match_pair(val, i_row, j_pair.front(), j_pair.back(), fish_lock_info_);
+
+        for (const auto &info : fish_lock_info_)
+        {
+            const int j_lock = info.perpendicular_i;
+            for (int i = 0; i < 9; i++)
+            {
+                if (i != info.line_i1 && i != info.line_i2)
+                {
+                    const int new_key = 9 * i + j_lock;
+                    cells_to_lock_at_val.emplace_back(new_key);
+                }
+            }
+        }
+    }
+
     // Column
     int output_i_lock;
     auto &col = cols[j_col];
@@ -105,6 +132,31 @@ void NewMatrix::add_constraint(short val, int key)
         break;
     }
 
+    if (col.has_only_two_possibilities(val)) // Fish
+    {
+        std::vector<int> i_pair;
+        for (int i = 0; i < 9; i++)
+        {
+            const int new_key = 9 * i_pair + j_col;
+            if (cells_[new_key].is_value_possible(val))
+                i_pair.emplace_back(new_key);
+        }
+        assert(i_pair.size() == 2);
+        col_fish_.try_match_pair(val, j_col, j_pair.front(), j_pair.back(), fish_lock_info_);
+
+        for (const auto &info : fish_lock_info_)
+        {
+            const int i_lock0 = 9 * info.perpendicular_i;
+            for (int j = 0; j < 9; j++)
+            {
+                if (j != info.line_i1 && j != info.line_i2)
+                {
+                    const int new_key = i_lock0 + j;
+                    cells_to_lock_at_val.emplace_back(new_key);
+                }
+            }
+        }
+    }
 
     // Square
     int output_id_lock;
