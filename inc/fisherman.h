@@ -43,6 +43,8 @@ private:
     struct Pt
     {
         Pt() = default;
+        Pt(int i, int j);
+
         int i;
         int j;
     };

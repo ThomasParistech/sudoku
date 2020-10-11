@@ -8,6 +8,8 @@
 
 #include "fisherman.h"
 
+FisherMan::Pt::Pt(int i, int j) : i(i), j(j) {}
+
 bool FisherMan::try_match_pair(short val, int line_id, int i1, int i2, std::vector<LockInfo> &output_lock_info)
 {
     PairsMap &pairs_map = pairs_[val];
