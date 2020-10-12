@@ -9,6 +9,7 @@
 
 #include "coloring.h"
 #include "fisherman.h"
+#include "sudoku_displayer.h"
 
 class NewMatrix
 {
