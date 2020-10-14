@@ -56,16 +56,12 @@ NewCell::Status NewCell::add_constraint(short val)
     return UPDATED;
 }
 
-void NewCell::set_value(short val, std::vector<short> &remaining_digits)
+void NewCell::get_remaining_candidates(short val, std::vector<short> &remaining_digits)
 {
     remaining_digits.clear();
     for (const auto &k : possible_digits_)
         if (k != val)
             remaining_digits.emplace_back(k);
-
-    // Clear set
-    possible_digits_.clear();
-    possible_digits_.insert(val);
 }
 
 const std::unordered_set<short> &NewCell::get_candidates()
