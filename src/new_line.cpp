@@ -10,65 +10,72 @@
 
 NewLine::NewLine()
 {
+    reset();
+}
+
+void NewLine::reset()
+{
     // At the initialisation each digit 0,1,..8 is available everywhere along the line
     for (short val = 0; val < 9; val++)
-    {
-        auto &counts = counts_per_val_[val];
-        counts.fill(3);
-    }
+        possibilities_per_val_[val].set();
 }
 
 bool NewLine::is_value_set(short val) const
 {
-    const auto it = counts_per_val_.find(val);
-    return (it != counts_per_val_.end());
+    return possibilities_per_val_[val].none();
 }
 
 bool NewLine::has_only_two_possibilities(short val) const
 {
-    const auto it = counts_per_val_.find(val);
-    if (it == counts_per_val_.end())
-        return false;
-
-    const auto &counts = it->second;
-    const int count = counts[0] + counts[1] + counts[2];
-    return count == 2;
+    return possibilities_per_val_[val].count() == 2;
 }
 
-NewLine::Status NewLine::add_constraint(short val, int i_block, int &output_i_lock)
+NewLine::Status NewLine::add_constraint(short val_restrict, int pos, int &output_i)
 {
-    const auto it = counts_per_val_.find(val);
-    if (it == counts_per_val_.end())
+    auto &bitset = possibilities_per_val_[val_restrict];
+    if (!bitset.test(pos)) // We already have the info
         return NOTHING;
 
-    auto &counts = it->second;
-    assert(counts[i_block] != 0);
-    counts[i_block]--;
-    const int count = counts[0] + counts[1] + counts[2];
-    if (count == 1)
+    bitset.reset(pos);
+    if (bitset.count() == 1)
     {
-        counts_per_val_.erase(val);
-        return SET_VALUE;
+        for (int i = 0; i < 9; i++)
+            if (bitset.test(i))
+            {
+                output_i = i;
+                bitset.reset();
+                return SET_VALUE;
+            }
     }
 
-    if (counts[i_block] != 0)
+    bool is_subpart_non_empty[3];
+    is_subpart_non_empty[0] = bitset.test(0) || bitset.test(1) || bitset.test(2);
+    is_subpart_non_empty[1] = bitset.test(3) || bitset.test(4) || bitset.test(5);
+    is_subpart_non_empty[2] = bitset.test(6) || bitset.test(7) || bitset.test(8);
+
+    const int crt_subpart = pos / 3;
+    if (is_subpart_non_empty[crt_subpart])
         return NOTHING;
 
-    int i_empty = -1, i_full = -1;
+    int i_non_empty;
+    int count_non_empty = 0;
     for (int i = 0; i < 3; i++)
     {
-        if (i == i_block)
-            continue;
-
-        if (counts[i] == 0)
-            i_empty = i;
-        else
-            i_full = i;
+        if (is_subpart_non_empty[i])
+        {
+            i_non_empty = i;
+            count_non_empty++;
+        }
     }
 
-    if (i_empty == 1)
+    if (count_non_empty != 1)
         return NOTHING;
 
-    output_i_lock = i_full;
+    output_i = i_non_empty;
     return LOCK;
+}
+
+const std::bitset<9> &NewLine::get_bitset(short val) const
+{
+    return possibilities_per_val_[val];
 }

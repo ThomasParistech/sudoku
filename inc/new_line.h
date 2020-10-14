@@ -8,7 +8,7 @@
 #define NEW_LINE_H
 
 #include <array>
-#include <unordered_map>
+#include <bitset>
 
 /// @brief Class maintaining counts of possibilities for each digit in structure of 3 chunks, each containing 3 cells.
 ///
@@ -41,6 +41,9 @@ public:
 
     ~NewLine() = default;
 
+    /// @brief Resets the line to its original state with all the sub-counts set to 3
+    void reset();
+
     /// @brief Returns true if @p val has been set along this line
     /// @param val Digit
     bool is_value_set(short val) const;
@@ -50,15 +53,19 @@ public:
     bool has_only_two_possibilities(short val) const;
 
     /// @brief Indicates that a given digit isn't available anymore
-    /// @param val Digit that isn't available anymore (0,1...8)
-    /// @param i_block Id of the block on which we're adding the constraint (0,1,2)
-    /// @param output_i_lock Output Id of the only block along this line containing possibilities for @p val
-    /// @note Use this id only when the output status is @ref Status::LOCK
+    /// @param val_restrict Digit that isn't available anymore (0,1...8)
+    /// @param pos Position along the line of the cell on which we're adding the constraint (0,1...8).
+    /// @param output_i Output Id depending on the return status
+    /// - Status::LOCK, id (0,1,2) is the only block along this line containing possibilities for @p val
+    /// - Status::SETVALUE, id (0,1...8) is the position along the line of the cell that must be set to @p val
     /// @return Status
-    Status add_constraint(short val, int i_block, int &output_i_lock);
+    /// @note If it's Status::SETVALUE, the bitset is automatically reset
+    Status add_constraint(short val_restrict, int pos, int &output_i);
+
+    const std::bitset<9> &get_bitset(short val) const;
 
 private:
-    std::unordered_map<short, std::array<int, 3>> counts_per_val_;
+    std::array<std::bitset<9>, 9> possibilities_per_val_;
 };
 
 #endif // NEW_LINE_H
