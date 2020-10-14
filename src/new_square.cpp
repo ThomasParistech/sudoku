@@ -20,29 +20,29 @@ bool NewSquare::is_value_set(short val)
     return horizontal_triplets_.is_value_set(val);
 }
 
-NewSquare::Status NewSquare::add_constraint(short val,
-                                            int i, int j,
-                                            int &output_id_lock)
+NewSquare::Status NewSquare::add_constraint(short val_restrict, int i, int j, int &output_i)
 {
-    int horiz_id_lock, vert_id_lock;
-    const auto horiz_status = horizontal_triplets_.add_constraint(val, i % 3, horiz_id_lock);
-    const auto vert_status = vertical_triplets_.add_constraint(val, j % 3, vert_id_lock);
+    int horiz_output_id, vert_output_id;
+    const auto horiz_status = horizontal_triplets_.add_constraint(val_restrict, i % 3, horiz_output_id);
+    const auto vert_status = vertical_triplets_.add_constraint(val_restrict, j % 3, vert_output_id);
 
     if (horiz_status == NewLine::Status::SET_VALUE)
     {
         assert(vert_status == NewLine::Status::SET_VALUE);
+        assert(horiz_output_id == vert_output_id);
+        output_i = horiz_output_id;
         return SET_VALUE;
     }
 
     if (horiz_status == NewLine::Status::LOCK)
     {
-        output_id_lock = horiz_id_lock;
+        output_i = horiz_output_id;
         return LOCK_ROW;
     }
 
     if (vert_status == NewLine::Status::LOCK)
     {
-        output_id_lock = vert_id_lock;
+        output_i = vert_output_id;
         return LOCK_COL;
     }
 

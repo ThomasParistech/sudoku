@@ -43,11 +43,11 @@ public:
     bool is_value_possible(short val) const;
 
     /// @brief Indicates that a given digit isn't available anymore
-    /// @param val Digit that isn't available anymore (0,1...8)
+    /// @param val_restrict Digit that isn't available anymore (0,1...8)
     /// @return Status
-    Status add_constraint(short val);
+    Status add_constraint(short val_restrict);
 
-    /// @brief Sets a value on this cell
+    /// @brief Gets candidates on this cell that are different than @p val
     /// @param val Digit to set (0,1...8)
     /// @param remaining_digits Remainining possible digits (excluding @p val )
     /// @note If the choice of the digit is caused by a line or a square, then the set of candidates is not
