@@ -41,9 +41,12 @@ bool NewCell::is_value_possible(short val) const
     return possible_digits_.find(val) != possible_digits_.end();
 }
 
-NewCell::Status NewCell::add_constraint(short val)
+NewCell::Status NewCell::add_constraint(short val_restrict)
 {
-    const int success = possible_digits_.erase(val);
+    if (possible_digits_.size() == 1)
+        return ALREADY_KNOWN;
+
+    const int success = possible_digits_.erase(val_restrict);
     if (success == 0)
         return ALREADY_KNOWN;
 

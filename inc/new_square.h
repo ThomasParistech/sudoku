@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- * File : new_square.h                                                                                                *
+ * File : new_square.h                                                                                               *
  *                                                                                                                   *
  * 2020 Thomas Rouch                                                                                                 *
  *********************************************************************************************************************/
@@ -31,19 +31,16 @@ public:
     bool is_value_set(short val);
 
     /// @brief Indicates that a given digit isn't available anymore
-    /// @param val Digit that isn't available anymore (0,1...8)
+    /// @param val_restrict Digit that isn't available anymore (0,1...8)
     /// @param i Id of the row on which we're adding the constraint (0,1,..8)
     /// @param j Id of the column on which we're adding the constraint (0,1,..8)
-    /// @param output_id_lock Output Id of the only block in this square containing possibilities for @p val
-    /// @note Use this id for horizontal blocks when the output status is @ref Status::LOCK_ROW and for vertical
-    /// blocks when the output status is @ref Status::LOCK_COL
-    ///
-    /// It's not possible to have both LOCK_ROW and LOCK_COL, because if we have only one available horizontal
-    /// block and only one vertical block, then it means we have only one possibility and get @ref Status::SET_VALUE
+    /// @param output_i Output Id depending on the return status
+    /// - Status::LOCK_ROW, id (0,1,2) is the only horiz block along in the square containing possibilities for @p val
+    /// - Status::LOCK_COL, id (0,1,2) is the only vert block along in the square containing possibilities for @p val
+    /// - Status::SETVALUE, id (0,1...8) is the position in the square of the cell that must be set to @p val
     /// @return Status
-    Status add_constraint(short val,
-                          int i, int j,
-                          int &output_id_lock);
+    /// @note If it's Status::SETVALUE, the horizontal and vertical bitsets are automatically reset
+    Status add_constraint(short val_restrict, int i, int j, int &output_i);
 
     /// @brief Returns true if @p val has only two possibilities along this line
     /// @param val Digit
