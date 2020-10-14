@@ -25,9 +25,12 @@ public:
     };
 
     /// @brief Constructor
-    FisherMan();
+    FisherMan() = default;
 
     ~FisherMan() = default;
+
+    /// @brief Resets the square to its original state without any pairs
+    void reset();
 
     /// @brief Looks for a fish pattern
     /// @note If no fish has been found, the class keeps this pair it in memory in hope of a future fish

@@ -10,6 +10,11 @@
 
 NewCell::NewCell()
 {
+    reset();
+}
+
+void NewCell::reset()
+{
     // At the initialisation each digit is possible: 0,1,..8
     for (short val = 0; val < 9; val++)
         possible_digits_.insert(val);
@@ -61,4 +66,9 @@ void NewCell::set_value(short val, std::vector<short> &remaining_digits)
     // Clear set
     possible_digits_.clear();
     possible_digits_.insert(val);
+}
+
+const std::unordered_set<short> &NewCell::get_candidates()
+{
+    return possible_digits_;
 }

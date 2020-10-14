@@ -10,6 +10,13 @@
 
 FisherMan::Pt::Pt(int i, int j) : i(i), j(j) {}
 
+void FisherMan::reset()
+{
+    for (int k = 0; k < 9; k++)
+        pairs_[k].clear(); // Warning we loose the memory allocation of the vectors
+                           // We should remplace std::map by an array
+}
+
 bool FisherMan::try_match_pair(short val, int line_id, int i1, int i2, std::vector<LockInfo> &output_lock_info)
 {
     PairsMap &pairs_map = pairs_[val];

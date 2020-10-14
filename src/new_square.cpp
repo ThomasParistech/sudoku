@@ -8,6 +8,12 @@
 
 #include "new_square.h"
 
+void NewSquare::reset()
+{
+    horizontal_triplets_.reset();
+    vertical_triplets_.reset();
+}
+
 bool NewSquare::is_value_set(short val)
 {
     assert(horizontal_triplets_.is_value_set(val) == vertical_triplets_.is_value_set(val));

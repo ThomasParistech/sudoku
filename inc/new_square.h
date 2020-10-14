@@ -23,6 +23,9 @@ public:
     /// @brief Constructor
     NewSquare() = default;
 
+    /// @brief Resets the square to its original state with all the sub-counts set to 3
+    void reset();
+
     /// @brief Returns true if @p val has been set in this square
     /// @param val Digit
     bool is_value_set(short val);

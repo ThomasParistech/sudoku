@@ -26,6 +26,9 @@ public:
 
     ~NewCell() = default;
 
+    /// @brief Resets the cell to its original state with 9 candidates
+    void reset();
+
     /// @brief Gets the number of available digits
     size_t get_nbr_candidates() const;
 
@@ -50,6 +53,9 @@ public:
     /// @note If the choice of the digit is caused by a line or a square, then the set of candidates is not
     /// reduced to a single value yet
     void set_value(short val, std::vector<short> &remaining_digits);
+
+    /// @brief Gets a const reference to the set of candidates
+    const std::unordered_set<short> &get_candidates();
 
 private:
     std::unordered_set<short> possible_digits_;
