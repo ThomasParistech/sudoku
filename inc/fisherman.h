@@ -19,6 +19,9 @@ public:
     /// @brief Struct representing a perpendicular line to lock, and two indices to keep
     struct LockInfo
     {
+        LockInfo() = default;
+        LockInfo(int perpendicular_i, int line_i1, int line_i2);
+
         int perpendicular_i;
         int line_i1;
         int line_i2;
@@ -46,17 +49,24 @@ private:
     struct Pt
     {
         Pt() = default;
-        Pt(int i, int j);
+        Pt(int i, int id_linej);
 
         int i;
-        int j;
+        int id_line;
     };
 
-    using PairsMap = std::unordered_map<int, std::vector<Pt>>; ///< For each location i along the line,
-                                                               ///< get the vector of (j, k) with j the second location
-                                                               ///< along the line and k the id of the new line
-                                                               ///< N.B a pair (a,b) is thus present twice in the map
-                                                               ///< at keys a and b
+    // For each location i along the line, get the vector of (j, k) with j the second location along the line and
+    // k the id of the new line.
+    // N.B a pair (a,b) is thus present twice in the map at keys a and b
+    //
+    // On the example below we have 3 pairs A, B and C.
+    // At the index i=A0=C0 we have two keys available : A1 and C1
+    // At the index i=A1=B1 we have two keys available : A0 and C0
+    // At the index i=B0=C1 we have two keys available : B1 and C0
+    // --------A0-----------A1--------
+    // --------------B0-----B1--------
+    // --------C0----C1---------------
+    using PairsMap = std::unordered_map<int, std::vector<Pt>>;
 
     /// @brief Finds a fish using backtracking
     /// @param path Backtracking path

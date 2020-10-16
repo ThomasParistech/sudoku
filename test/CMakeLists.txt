@@ -1,4 +1,5 @@
 set(gtest_srcs
+    ${CMAKE_CURRENT_SOURCE_DIR}/fisherman_gtest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/new_line_gtest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )

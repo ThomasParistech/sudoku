@@ -8,7 +8,13 @@
 
 #include "fisherman.h"
 
-FisherMan::Pt::Pt(int i, int j) : i(i), j(j) {}
+FisherMan::LockInfo::LockInfo(int perpendicular_i, int line_i1, int line_i2) : perpendicular_i(perpendicular_i),
+                                                                               line_i1(line_i1),
+                                                                               line_i2(line_i2) {}
+
+FisherMan::Pt::Pt(int i, int id_line) : i(i), id_line(id_line)
+{
+}
 
 void FisherMan::reset()
 {
@@ -36,7 +42,7 @@ bool FisherMan::try_match_pair(short val, int line_id, int i1, int i2, std::vect
     {
         LockInfo info;
         info.perpendicular_i = pt.i;
-        info.line_i1 = pt.j;
+        info.line_i1 = pt.id_line;
         info.line_i2 = -1;
 
         if (!output_lock_info.empty())
@@ -61,6 +67,10 @@ bool FisherMan::find_fish(std::vector<Pt> &path, const PairsMap &pairs_map, cons
     // Go deeper into the path
     for (const auto &pt : it_pairs->second)
     {
+        // Make sure it's on a different line
+        if (pt.id_line == last_pt.id_line)
+            continue;
+
         path.emplace_back(pt);
         if (find_fish(path, pairs_map, i_target))
             return true;
