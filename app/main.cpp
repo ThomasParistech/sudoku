@@ -8,7 +8,7 @@
 #include <boost/program_options.hpp>
 #include <iostream>
 
-#include <new_matrix.h>
+#include <sudoku_solver.h>
 
 namespace boost_po = boost::program_options;
 namespace bfs = boost::filesystem;
@@ -84,13 +84,15 @@ bool parse_command_line(int argc, char *argv[], Config &config)
     return true;
 }
 
+#include "Matrix.h"
+
 int main(int argc, char **argv)
 {
     Config config;
     if (!parse_command_line(argc, argv, config))
         return 1;
 
-    NewMatrix solver;
+    SudokuSolver solver;
     solver.solve_grid(config.input_filename_csv);
     return 0;
 }
