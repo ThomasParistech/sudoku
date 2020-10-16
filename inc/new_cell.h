@@ -52,7 +52,7 @@ public:
     /// @param remaining_digits Remainining possible digits (excluding @p val )
     /// @note If the choice of the digit is caused by a line or a square, then the set of candidates is not
     /// reduced to a single value yet
-    void get_remaining_candidates(short val, std::vector<short> &remaining_digits);
+    void get_remaining_candidates(short val, std::vector<short> &remaining_digits) const;
 
     /// @brief Gets a const reference to the set of candidates
     const std::unordered_set<short> &get_candidates();

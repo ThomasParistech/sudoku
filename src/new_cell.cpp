@@ -59,7 +59,7 @@ NewCell::Status NewCell::add_constraint(short val_restrict)
     return UPDATED;
 }
 
-void NewCell::get_remaining_candidates(short val, std::vector<short> &remaining_digits)
+void NewCell::get_remaining_candidates(short val, std::vector<short> &remaining_digits) const
 {
     remaining_digits.clear();
     for (const auto &k : possible_digits_)
