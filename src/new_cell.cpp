@@ -67,7 +67,7 @@ void NewCell::get_remaining_candidates(short val, std::vector<short> &remaining_
             remaining_digits.emplace_back(k);
 }
 
-const std::unordered_set<short> &NewCell::get_candidates()
+const std::unordered_set<short> &NewCell::get_candidates() const
 {
     return possible_digits_;
 }

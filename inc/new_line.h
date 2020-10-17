@@ -9,6 +9,9 @@
 
 #include <array>
 #include <bitset>
+#include <vector>
+
+#include "val_key.h"
 
 /// @brief Class maintaining counts of possibilities for each digit in structure of 3 chunks, each containing 3 cells.
 ///
@@ -64,8 +67,11 @@ public:
 
     const std::bitset<9> &get_bitset(short val) const;
 
+    // void look_for_locked_sets(std::vector<ValKey> &cells_to_lock);
+
 private:
     std::array<std::bitset<9>, 9> possibilities_per_val_;
+    std::bitset<9> set_cells_;
 };
 
 #endif // NEW_LINE_H

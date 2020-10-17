@@ -55,7 +55,7 @@ public:
     void get_remaining_candidates(short val, std::vector<short> &remaining_digits) const;
 
     /// @brief Gets a const reference to the set of candidates
-    const std::unordered_set<short> &get_candidates();
+    const std::unordered_set<short> &get_candidates() const;
 
 private:
     std::unordered_set<short> possible_digits_;
