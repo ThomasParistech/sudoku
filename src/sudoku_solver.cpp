@@ -8,11 +8,12 @@
 #include <iostream>
 #include <sstream>
 
+#include "back_tracking_solver.h"
 #include "sudoku_solver.h"
+#include "timer.h"
 
 void SudokuSolver::solve_grid(const std::string &input_filename_csv)
 {
-    matrix_.reset();
 
     // Load
     std::vector<ValKey> init_cells;
@@ -33,8 +34,16 @@ void SudokuSolver::solve_grid(const std::string &input_filename_csv)
                 init_cells.emplace_back(val - 1, 9 * i + j); // val-1 because the value is shifted to 0:8
         }
     }
+    ////////////////////////////////
+
+    BackTrackingSolver backtracking;
+    backtracking.solve(init_cells);
+    displayer_.found_cells(backtracking.get_cells());
+
+    ////////////////////////////////
 
     // Solve
+    matrix_.reset();
     for (auto it = init_cells.cbegin(); it != init_cells.end(); it++)
     {
         // displayer_.candidate_cells_containing_val(2, matrix_.get_cells());
@@ -64,23 +73,14 @@ void SudokuSolver::solve_grid(const std::string &input_filename_csv)
                     matrix_.add_constraint(it->val, it->key, cells_to_lock_, cells_to_add_);
                 cells_to_lock_.clear();
             }
-
-            // // Do Coloring
-            // for (int v = 0; v < 9; v++)
-            // {
-            //     coloring_.do_coloring(v, matrix_.get_cells(), matrix_.get_rows(), matrix_.get_cols(), matrix_.get_squares(), cells_to_add_coloring_);
-            //     for (const auto &k : cells_to_add_coloring_)
-            //         matrix_.set_value(v, k, cells_to_lock_, cells_to_add_);
-            // }
         }
     }
-    // displayer_.num_candidates_per_cell(matrix_.get_cells());
-    // displayer_.found_cells(matrix_.get_cells());
-    // for (int k = 0; k < 9; k++)
-    //     displayer_.candidate_cells_containing_val(k, matrix_.get_cells());
 
-    displayer_.candidates_per_cell(matrix_.get_cells());
-    // export_to_csv();
+    displayer_.found_cells(matrix_.get_cells());
+
+    BackTrackingSolver backtracking_2;
+    backtracking_2.solve(matrix_.get_cells());
+    displayer_.found_cells(backtracking_2.get_cells());
 }
 
 void SudokuSolver::export_to_csv() const
