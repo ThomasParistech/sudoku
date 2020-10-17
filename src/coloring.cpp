@@ -10,7 +10,7 @@
 
 void Coloring::do_coloring(short val, const std::array<NewCell, 81> &cells, const std::array<NewLine, 9> &rows,
                            const std::array<NewLine, 9> &columns, const std::array<NewSquare, 9> &squares,
-                           std::vector<int> &output_cells_to_add)
+                           std::vector<ValKey> &output_cells_to_add)
 {
     extract_all_pairs(val, cells, rows, columns, squares);
     colored_cells_.reset();
@@ -34,9 +34,9 @@ void Coloring::do_coloring(short val, const std::array<NewCell, 81> &cells, cons
             {
                 // One of the two paths isn't valid
                 if (valid_checker_0_.is_valid)
-                    output_cells_to_add.emplace_back(key);
+                    output_cells_to_add.emplace_back(val, key);
                 else
-                    output_cells_to_add.emplace_back(pairs.back()); // One is enough, it will then propagate the info
+                    output_cells_to_add.emplace_back(val, pairs.back()); // One is enough, it will then propagate the info
             }
         }
     }

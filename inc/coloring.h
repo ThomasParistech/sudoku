@@ -14,6 +14,7 @@
 
 #include "new_cell.h"
 #include "new_square.h"
+#include "val_key.h"
 
 class Coloring
 {
@@ -32,7 +33,7 @@ public:
     /// @param output_cells_to_add Keys of the cells to set at @p val
     void do_coloring(short val, const std::array<NewCell, 81> &cells, const std::array<NewLine, 9> &rows,
                      const std::array<NewLine, 9> &columns, const std::array<NewSquare, 9> &squares,
-                     std::vector<int> &output_cells_to_add);
+                     std::vector<ValKey> &output_cells_to_add);
 
 private:
     /// @brief Propagates a coloring path in a recursive way

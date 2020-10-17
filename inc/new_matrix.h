@@ -7,16 +7,10 @@
 #ifndef NEW_MATRIX_H
 #define NEW_MATRIX_H
 
+#include "coloring.h"
 #include "fisherman.h"
 #include "new_cell.h"
 #include "new_square.h"
-
-struct ValKey
-{
-    ValKey(short val, int key);
-    short val;
-    int key;
-};
 
 class NewMatrix
 {
@@ -27,12 +21,6 @@ public:
     void reset();
 
     const std::array<NewCell, 81> &get_cells() const;
-
-    const std::array<NewLine, 9> &get_rows() const;
-
-    const std::array<NewLine, 9> &get_cols() const;
-
-    const std::array<NewSquare, 9> &get_squares() const;
 
     /// @brief Sets the cell at @p key to the value @p val and propagates constraints
     /// @note cells_to_lock_ is updated accordingly (But cells_to_add_ remains constant)
@@ -52,6 +40,8 @@ public:
     /// @return false if the value constraint is already known
     bool add_constraint(short val_restrict, int key, std::vector<ValKey> &cells_to_lock,
                         std::vector<ValKey> &cells_to_add);
+
+    void do_coloring(short val, std::vector<ValKey> &cells_to_add);
 
 private:
     /// @brief Finds pair of cells along the row that both contains @p val and uses it to find a fish pattern
@@ -79,6 +69,8 @@ private:
     FisherMan row_fish_;
     FisherMan col_fish_;
     std::vector<FisherMan::LockInfo> fish_lock_info_tmp_;
+
+    Coloring coloring_;
 };
 
 #endif // NEW_MATRIX_H

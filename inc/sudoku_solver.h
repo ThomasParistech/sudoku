@@ -7,7 +7,6 @@
 #ifndef SUDOKU_SOLVER_H
 #define SUDOKU_SOLVER_H
 
-#include "coloring.h"
 #include "new_matrix.h"
 #include "sudoku_displayer.h"
 
@@ -26,9 +25,6 @@ private:
 
     NewMatrix matrix_;
     SudokuDisplayer displayer_;
-
-    Coloring coloring_;
-    std::vector<int> cells_to_add_coloring_;
 
     std::vector<ValKey> cells_tmp_;
     std::vector<ValKey> cells_to_lock_;

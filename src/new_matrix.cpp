@@ -9,8 +9,6 @@
 
 #include "new_matrix.h"
 
-ValKey::ValKey(short val, int key) : val(val), key(key) {}
-
 void NewMatrix::reset()
 {
     for (int k = 0; k < 81; k++)
@@ -29,21 +27,6 @@ void NewMatrix::reset()
 const std::array<NewCell, 81> &NewMatrix::get_cells() const
 {
     return cells_;
-}
-
-const std::array<NewLine, 9> &NewMatrix::get_rows() const
-{
-    return rows_;
-}
-
-const std::array<NewLine, 9> &NewMatrix::get_cols() const
-{
-    return cols_;
-}
-
-const std::array<NewSquare, 9> &NewMatrix::get_squares() const
-{
-    return squares_;
 }
 
 void NewMatrix::set_value(short val, int key,
@@ -112,6 +95,7 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
         break;
     }
     case NewCell::Status::PAIR:
+
         break;
     }
 
@@ -270,3 +254,9 @@ void NewMatrix::try_and_find_fish_on_cols(short val, int j_col, std::vector<ValK
         }
     }
 }
+
+void NewMatrix::do_coloring(short val, std::vector<ValKey> &cells_to_add)
+{
+    coloring_.do_coloring(val, cells_, rows_, cols_, squares_, cells_to_add);
+}
+
