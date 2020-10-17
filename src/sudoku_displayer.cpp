@@ -40,6 +40,19 @@ void SudokuDisplayer::print_grid(CellToCharCb char_cb, bool use_long_line) const
               << std::endl;
 }
 
+void SudokuDisplayer::found_cells(const std::array<short, 81> &cells)
+{
+    static int count = 0;
+    std::cout << count++ << ") "
+              << "Found cells" << std::endl;
+
+    const auto char_cb = [&cells](std::stringstream &ss, int i, int j) {
+        ss << cells[9 * i + j] + 1;
+    };
+
+    print_grid(char_cb);
+}
+
 void SudokuDisplayer::found_cells(const std::array<NewCell, 81> &cells)
 {
     static int count = 0;

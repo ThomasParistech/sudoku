@@ -18,6 +18,9 @@ public:
     SudokuDisplayer() = default;
 
     /// @brief Displays in the console the grid wih the values that have been found
+    void found_cells(const std::array<short, 81> &cells);
+
+    /// @brief Displays in the console the grid wih the values that have been found
     /// @param cells 9x9 grid of cells
     void found_cells(const std::array<NewCell, 81> &cells);
 
