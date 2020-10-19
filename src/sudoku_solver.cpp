@@ -40,6 +40,11 @@ bool SudokuSolver::solve_grid(const std::string &input_filename_csv, bool displa
                 init_cells.emplace_back(val - 1, 9 * i + j); // val-1 because the value is shifted to 0:8
         }
     }
+
+    if (display)
+        displayer_.found_cells(init_cells);
+
+    // solve
     if (use_backtracking_only)
     {
         BackTrackingSolver backtracking;

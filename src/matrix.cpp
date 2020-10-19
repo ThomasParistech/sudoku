@@ -256,5 +256,5 @@ void Matrix::try_and_find_fish_on_cols(short val, int j_col, std::vector<ValKey>
 
 void Matrix::do_coloring(short val, std::vector<ValKey> &cells_to_add)
 {
-    coloring_.do_coloring(val, cells_, rows_, cols_, squares_, cells_to_add);
+    coloring_.run(val, cells_, rows_, cols_, squares_, cells_to_add);
 }

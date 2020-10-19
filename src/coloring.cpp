@@ -8,9 +8,12 @@
 
 #include "coloring.h"
 
-void Coloring::do_coloring(short val, const std::array<Cell, 81> &cells, const std::array<Line, 9> &rows,
-                           const std::array<Line, 9> &columns, const std::array<Square, 9> &squares,
-                           std::vector<ValKey> &output_cells_to_add)
+void Coloring::run(short val,
+                   const std::array<Cell, 81> &cells,
+                   const std::array<Line, 9> &rows,
+                   const std::array<Line, 9> &columns,
+                   const std::array<Square, 9> &squares,
+                   std::vector<ValKey> &output_cells_to_add)
 {
     extract_all_pairs(val, cells, rows, columns, squares);
     colored_cells_.reset();

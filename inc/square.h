@@ -9,6 +9,11 @@
 
 #include "line.h"
 
+/// @brief Class maintaining counts of possibilities for each digit in a square
+///
+/// The square is divide inoto two @ref Line instances:
+///  - three horizontal pieces of size 3
+///  - three vertical pieces of size 3
 class Square
 {
 public:

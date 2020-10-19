@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <vector>
 
+/// @brief Base class storing digit candidates between 0 and 8
 class Cell
 {
 public:

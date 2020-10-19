@@ -16,6 +16,16 @@
 #include "square.h"
 #include "val_key.h"
 
+/// @brief Class implementing a well known single-digit solving technique that uses colors to mark the parity of
+/// candidates
+///
+/// If a digit is a candidate for exactly two cells in a row, in a column or in a square, then it's one or the other.
+/// Let these two cells be A and B. If A is also linked as pair with another cell C from another structure, then
+/// B and C have the same status: either both take the value, or none of them. That way, starting from A and B, we
+/// can spread two  "coloring paths" alternating between the colors of A and B.
+///
+/// If we end up with two cells of the same color A that can't be set at the same time (same row, same column, same
+/// square), then it confirms the fact that B must be set.
 class Coloring
 {
 public:
@@ -24,16 +34,20 @@ public:
 
     ~Coloring() = default;
 
-    /// @brief TODOOOOOOOOOOOOOOOOOOOOOOO
+    /// @brief Finds pairs of @p val inside a row, column or square, computes their coloring paths and outputs cells
+    /// to add if one of the two paths of a pair isn't valid
     /// @param val Value
     /// @param cells 9x9 grid of cells
     /// @param rows 9 rows
     /// @param columns 9 columns
     /// @param squares 9 squares
     /// @param output_cells_to_add Keys of the cells to set at @p val
-    void do_coloring(short val, const std::array<Cell, 81> &cells, const std::array<Line, 9> &rows,
-                     const std::array<Line, 9> &columns, const std::array<Square, 9> &squares,
-                     std::vector<ValKey> &output_cells_to_add);
+    void run(short val,
+             const std::array<Cell, 81> &cells,
+             const std::array<Line, 9> &rows,
+             const std::array<Line, 9> &columns,
+             const std::array<Square, 9> &squares,
+             std::vector<ValKey> &output_cells_to_add);
 
 private:
     /// @brief Propagates a coloring path in a recursive way
@@ -50,6 +64,7 @@ private:
     void extract_all_pairs(short val, const std::array<Cell, 81> &cells, const std::array<Line, 9> &rows,
                            const std::array<Line, 9> &columns, const std::array<Square, 9> &squares);
 
+    /// @brief Struct storing the history of a coloring path and detecting when this path can't be valid
     struct ValidityChecker
     {
         ValidityChecker() = default;

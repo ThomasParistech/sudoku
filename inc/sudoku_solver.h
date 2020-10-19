@@ -10,12 +10,20 @@
 #include "matrix.h"
 #include "sudoku_displayer.h"
 
+/// @brief Class solving sudoku grids
 class SudokuSolver
 {
 public:
     /// @brief Constructor
+    /// @param output_dir_path Output directory to export the sudoku solution
     SudokuSolver(const std::string &output_dir_path = "");
 
+    /// @brief Solves the sudoku
+    /// @param input_filename_csv Sudoku grid to solve
+    /// @param display Display sudoku grids or not
+    /// @param use_backtracking_only Use only backtracking method. Otherwise, the class propagates constraints and
+    /// set new cells as much as possible, and then completes the grid using backtracking
+    /// @return true if the suduku has been properly solved
     bool solve_grid(const std::string &input_filename_csv,
                     bool display = true, bool use_backtracking_only = false);
 
