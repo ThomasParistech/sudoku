@@ -10,7 +10,7 @@
 #include <unordered_set>
 #include <vector>
 
-class NewCell
+class Cell
 {
 public:
     enum Status
@@ -22,9 +22,9 @@ public:
     };
 
     /// @brief Constructor
-    NewCell();
+    Cell();
 
-    ~NewCell() = default;
+    ~Cell() = default;
 
     /// @brief Resets the cell to its original state with 9 candidates
     void reset();

@@ -1,15 +1,14 @@
 /*********************************************************************************************************************
- * File : new_matrix.cpp                                                                                             *
+ * File : matrix.cpp                                                                                                 *
  *                                                                                                                   *
  * 2020 Thomas Rouch                                                                                                 *
  *********************************************************************************************************************/
 
 #include <assert.h>
-#include <iostream> //debug
 
-#include "new_matrix.h"
+#include "matrix.h"
 
-void NewMatrix::reset()
+void Matrix::reset()
 {
     for (int k = 0; k < 81; k++)
         cells_[k].reset();
@@ -24,14 +23,14 @@ void NewMatrix::reset()
     col_fish_.reset();
 }
 
-const std::array<NewCell, 81> &NewMatrix::get_cells() const
+const std::array<Cell, 81> &Matrix::get_cells() const
 {
     return cells_;
 }
 
-void NewMatrix::set_value(short val, int key,
-                          std::vector<ValKey> &cells_to_lock,
-                          std::vector<ValKey> &cells_to_add)
+void Matrix::set_value(short val, int key,
+                       std::vector<ValKey> &cells_to_lock,
+                       std::vector<ValKey> &cells_to_add)
 {
     assert(0 <= val && val < 9);
     assert(0 <= key && key < 81);
@@ -67,9 +66,9 @@ void NewMatrix::set_value(short val, int key,
                 add_constraint(val, 9 * i + j, cells_to_lock, cells_to_add);
 }
 
-bool NewMatrix::add_constraint(short val_restrict, int key,
-                               std::vector<ValKey> &cells_to_lock,
-                               std::vector<ValKey> &cells_to_add)
+bool Matrix::add_constraint(short val_restrict, int key,
+                            std::vector<ValKey> &cells_to_lock,
+                            std::vector<ValKey> &cells_to_add)
 {
     assert(0 <= val_restrict && val_restrict < 9);
     assert(0 <= key && key < 81);
@@ -83,18 +82,18 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
     const auto cell_status = cells_[key].add_constraint(val_restrict);
     switch (cell_status)
     {
-    case NewCell::Status::ALREADY_KNOWN:
+    case Cell::Status::ALREADY_KNOWN:
         assert(!rows_[key / 9].get_bitset(val_restrict)[key - 9 * (key / 9)]);
         assert(!cols_[key - 9 * (key / 9)].get_bitset(val_restrict)[key / 9]);
         return false; // No need to keep propagating the constraint
 
-    case NewCell::Status::SET_VALUE:
+    case Cell::Status::SET_VALUE:
     {
         const int new_val = cells_[key].get_value();
         cells_to_add.emplace_back(new_val, key);
         break;
     }
-    case NewCell::Status::PAIR:
+    case Cell::Status::PAIR:
 
         break;
     }
@@ -112,12 +111,12 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
     const auto row_status = row.add_constraint(val_restrict, j_col, output_j);
     switch (row_status)
     {
-    case NewLine::Status::SET_VALUE:
+    case Line::Status::SET_VALUE:
         // Set the value in the cell
         new_keys_val_restrict.insert(9 * i_row + output_j);
         break;
 
-    case NewLine::Status::LOCK:
+    case Line::Status::LOCK:
         // Prevent other cells in the square to have this value
         {
             const int out_j_lock_3 = 3 * output_j;
@@ -137,12 +136,12 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
     const auto col_status = col.add_constraint(val_restrict, i_row, output_i);
     switch (col_status)
     {
-    case NewLine::Status::SET_VALUE:
+    case Line::Status::SET_VALUE:
         // Set the value in the cell
         new_keys_val_restrict.insert(9 * output_i + j_col);
         break;
 
-    case NewLine::Status::LOCK:
+    case Line::Status::LOCK:
         // Prevent other cells in the square to have this value
         {
             const int out_i_lock_3 = 3 * output_i;
@@ -163,7 +162,7 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
 
     switch (square_status)
     {
-    case NewSquare::Status::SET_VALUE:
+    case Square::Status::SET_VALUE:
         // Set the value in the cell
         {
             const int i_inside_square = output_square_id / 3;
@@ -172,7 +171,7 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
         }
         break;
 
-    case NewSquare::Status::LOCK_ROW:
+    case Square::Status::LOCK_ROW:
         // Prevent other cells in the row to have this value
         {
             const int i0 = 9 * output_square_id;
@@ -182,7 +181,7 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
         }
         break;
 
-    case NewSquare::Status::LOCK_COL:
+    case Square::Status::LOCK_COL:
         // Prevent other cells in the column to have this value
         {
             for (int i = 0; i < 9; i++)
@@ -198,7 +197,7 @@ bool NewMatrix::add_constraint(short val_restrict, int key,
     return true;
 }
 
-void NewMatrix::try_and_find_fish_on_rows(short val, int i_row, std::vector<ValKey> &cells_to_lock)
+void Matrix::try_and_find_fish_on_rows(short val, int i_row, std::vector<ValKey> &cells_to_lock)
 {
     assert(rows_[i_row].has_only_two_possibilities(val));
 
@@ -227,7 +226,7 @@ void NewMatrix::try_and_find_fish_on_rows(short val, int i_row, std::vector<ValK
     }
 }
 
-void NewMatrix::try_and_find_fish_on_cols(short val, int j_col, std::vector<ValKey> &cells_to_lock)
+void Matrix::try_and_find_fish_on_cols(short val, int j_col, std::vector<ValKey> &cells_to_lock)
 {
     assert(cols_[j_col].has_only_two_possibilities(val));
 
@@ -255,8 +254,7 @@ void NewMatrix::try_and_find_fish_on_cols(short val, int j_col, std::vector<ValK
     }
 }
 
-void NewMatrix::do_coloring(short val, std::vector<ValKey> &cells_to_add)
+void Matrix::do_coloring(short val, std::vector<ValKey> &cells_to_add)
 {
     coloring_.do_coloring(val, cells_, rows_, cols_, squares_, cells_to_add);
 }
-

@@ -1,15 +1,15 @@
 /*********************************************************************************************************************
- * File : new_square.h                                                                                               *
+ * File : square.h                                                                                                   *
  *                                                                                                                   *
  * 2020 Thomas Rouch                                                                                                 *
  *********************************************************************************************************************/
 
-#ifndef NEW_SQUARE_H
-#define NEW_SQUARE_H
+#ifndef SQUARE_H
+#define SQUARE_H
 
-#include "new_line.h"
+#include "line.h"
 
-class NewSquare
+class Square
 {
 public:
     enum Status
@@ -21,7 +21,7 @@ public:
     };
 
     /// @brief Constructor
-    NewSquare() = default;
+    Square() = default;
 
     /// @brief Resets the square to its original state with all the sub-counts set to 3
     void reset();
@@ -47,8 +47,8 @@ public:
     bool has_only_two_possibilities(short val) const;
 
 private:
-    NewLine horizontal_triplets_;
-    NewLine vertical_triplets_;
+    Line horizontal_triplets_;
+    Line vertical_triplets_;
 };
 
-#endif // NEW_SQUARE_H
+#endif // SQUARE_H

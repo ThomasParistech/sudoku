@@ -1,26 +1,26 @@
 /*********************************************************************************************************************
- * File : new_matrix.h                                                                                               *
+ * File : matrix.h                                                                                                   *
  *                                                                                                                   *
  * 2020 Thomas Rouch                                                                                                 *
  *********************************************************************************************************************/
 
-#ifndef NEW_MATRIX_H
-#define NEW_MATRIX_H
+#ifndef MATRIX_H
+#define MATRIX_H
 
 #include "coloring.h"
 #include "fisherman.h"
-#include "new_cell.h"
-#include "new_square.h"
+#include "cell.h"
+#include "square.h"
 
-class NewMatrix
+class Matrix
 {
 public:
     /// @brief Constructor
-    NewMatrix() = default;
+    Matrix() = default;
 
     void reset();
 
-    const std::array<NewCell, 81> &get_cells() const;
+    const std::array<Cell, 81> &get_cells() const;
 
     /// @brief Sets the cell at @p key to the value @p val and propagates constraints
     /// @note cells_to_lock_ is updated accordingly (But cells_to_add_ remains constant)
@@ -60,10 +60,10 @@ private:
     /// @param cells_to_lock
     void try_and_find_fish_on_cols(short val, int j_col, std::vector<ValKey> &cells_to_lock);
 
-    std::array<NewCell, 81> cells_;
-    std::array<NewLine, 9> rows_;
-    std::array<NewLine, 9> cols_;
-    std::array<NewSquare, 9> squares_;
+    std::array<Cell, 81> cells_;
+    std::array<Line, 9> rows_;
+    std::array<Line, 9> cols_;
+    std::array<Square, 9> squares_;
     std::vector<short> remaining_digits_tmp_;
 
     FisherMan row_fish_;
@@ -73,4 +73,4 @@ private:
     Coloring coloring_;
 };
 
-#endif // NEW_MATRIX_H
+#endif // MATRIX_H

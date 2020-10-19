@@ -4,8 +4,8 @@
  * 2020 Thomas Rouch                                                                                                 *
  *********************************************************************************************************************/
 
-#ifndef NEW_LINE_H
-#define NEW_LINE_H
+#ifndef LINE_H
+#define LINE_H
 
 #include <array>
 #include <bitset>
@@ -20,7 +20,7 @@
 ///  - a vertical column, made of three vertical pieces of size 3
 ///  - three horizontal pieces of size 3 contained in a square
 ///  - three vertical pieces of size 3 contained in a square
-class NewLine
+class Line
 {
 public:
     enum Status
@@ -40,9 +40,9 @@ public:
     };
 
     /// @brief Constructor
-    NewLine();
+    Line();
 
-    ~NewLine() = default;
+    ~Line() = default;
 
     /// @brief Resets the line to its original state with all the sub-counts set to 3
     void reset();
@@ -67,11 +67,9 @@ public:
 
     const std::bitset<9> &get_bitset(short val) const;
 
-    // void look_for_locked_sets(std::vector<ValKey> &cells_to_lock);
-
 private:
     std::array<std::bitset<9>, 9> possibilities_per_val_;
     std::bitset<9> set_cells_;
 };
 
-#endif // NEW_LINE_H
+#endif // LINE_H

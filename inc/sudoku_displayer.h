@@ -9,8 +9,8 @@
 
 #include <functional>
 
-#include "new_cell.h"
-#include "new_square.h"
+#include "cell.h"
+#include "square.h"
 
 class SudokuDisplayer
 {
@@ -22,15 +22,15 @@ public:
 
     /// @brief Displays in the console the grid wih the values that have been found
     /// @param cells 9x9 grid of cells
-    void found_cells(const std::array<NewCell, 81> &cells);
+    void found_cells(const std::array<Cell, 81> &cells);
 
-    void candidates_per_cell(const std::array<NewCell, 81> &cells);
+    void candidates_per_cell(const std::array<Cell, 81> &cells);
 
-    void num_candidates_per_cell(const std::array<NewCell, 81> &cells);
+    void num_candidates_per_cell(const std::array<Cell, 81> &cells);
 
-    void candidate_cells_containing_val(short val, const std::array<NewCell, 81> &cells);
+    void candidate_cells_containing_val(short val, const std::array<Cell, 81> &cells);
 
-    void num_candidates_per_cell_containing_val(short val, const std::array<NewCell, 81> &cells);
+    void num_candidates_per_cell_containing_val(short val, const std::array<Cell, 81> &cells);
 
 private:
     /// @brief Callback to append a character to a stream from a location (i,j)

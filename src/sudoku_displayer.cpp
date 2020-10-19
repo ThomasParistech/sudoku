@@ -53,7 +53,7 @@ void SudokuDisplayer::found_cells(const std::array<short, 81> &cells)
     print_grid(char_cb);
 }
 
-void SudokuDisplayer::found_cells(const std::array<NewCell, 81> &cells)
+void SudokuDisplayer::found_cells(const std::array<Cell, 81> &cells)
 {
     static int count = 0;
     std::cout << count++ << ") "
@@ -70,7 +70,7 @@ void SudokuDisplayer::found_cells(const std::array<NewCell, 81> &cells)
     print_grid(char_cb);
 }
 
-void SudokuDisplayer::candidates_per_cell(const std::array<NewCell, 81> &cells)
+void SudokuDisplayer::candidates_per_cell(const std::array<Cell, 81> &cells)
 {
     static int count = 0;
 
@@ -102,7 +102,7 @@ void SudokuDisplayer::candidates_per_cell(const std::array<NewCell, 81> &cells)
     print_grid(char_cb, true);
 }
 
-void SudokuDisplayer::num_candidates_per_cell(const std::array<NewCell, 81> &cells)
+void SudokuDisplayer::num_candidates_per_cell(const std::array<Cell, 81> &cells)
 {
     static int count = 0;
 
@@ -124,7 +124,7 @@ void SudokuDisplayer::num_candidates_per_cell(const std::array<NewCell, 81> &cel
 }
 
 void SudokuDisplayer::candidate_cells_containing_val(short val,
-                                                     const std::array<NewCell, 81> &cells)
+                                                     const std::array<Cell, 81> &cells)
 {
     static int count = 0;
     std::cout << count++ << ") "
@@ -143,7 +143,7 @@ void SudokuDisplayer::candidate_cells_containing_val(short val,
 }
 
 void SudokuDisplayer::num_candidates_per_cell_containing_val(short val,
-                                                             const std::array<NewCell, 81> &cells)
+                                                             const std::array<Cell, 81> &cells)
 {
     static int count = 0;
     std::cout << count++ << ") "

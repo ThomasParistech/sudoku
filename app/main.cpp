@@ -84,8 +84,6 @@ bool parse_command_line(int argc, char *argv[], Config &config)
     return true;
 }
 
-#include "Matrix.h"
-
 int main(int argc, char **argv)
 {
     Config config;

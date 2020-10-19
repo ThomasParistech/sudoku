@@ -22,7 +22,7 @@ bool BackTrackingSolver::solve(const std::vector<ValKey> &set_cells)
     return find_solution(0);
 }
 
-bool BackTrackingSolver::solve(const std::array<NewCell, 81> &cells_with_candidates)
+bool BackTrackingSolver::solve(const std::array<Cell, 81> &cells_with_candidates)
 {
     cells_.fill(-1);
     return find_solution(cells_with_candidates, 0);
@@ -49,7 +49,7 @@ bool BackTrackingSolver::find_solution(int key_to_test)
     return false;
 }
 
-bool BackTrackingSolver::find_solution(const std::array<NewCell, 81> &cells_with_candidates,
+bool BackTrackingSolver::find_solution(const std::array<Cell, 81> &cells_with_candidates,
                                        int key_to_test)
 {
     if (key_to_test == 81)

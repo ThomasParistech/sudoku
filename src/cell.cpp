@@ -6,42 +6,42 @@
 
 #include <assert.h>
 
-#include "new_cell.h"
+#include "cell.h"
 
-NewCell::NewCell()
+Cell::Cell()
 {
     reset();
 }
 
-void NewCell::reset()
+void Cell::reset()
 {
     // At the initialisation each digit is possible: 0,1,..8
     for (short val = 0; val < 9; val++)
         possible_digits_.insert(val);
 }
 
-size_t NewCell::get_nbr_candidates() const
+size_t Cell::get_nbr_candidates() const
 {
     return possible_digits_.size();
 }
 
-short NewCell::get_value() const
+short Cell::get_value() const
 {
     assert(possible_digits_.size() == 1);
     return *possible_digits_.begin();
 }
 
-bool NewCell::is_set() const
+bool Cell::is_set() const
 {
     return possible_digits_.size() == 1;
 }
 
-bool NewCell::is_value_possible(short val) const
+bool Cell::is_value_possible(short val) const
 {
     return possible_digits_.find(val) != possible_digits_.end();
 }
 
-NewCell::Status NewCell::add_constraint(short val_restrict)
+Cell::Status Cell::add_constraint(short val_restrict)
 {
     if (possible_digits_.size() == 1)
         return ALREADY_KNOWN;
@@ -59,7 +59,7 @@ NewCell::Status NewCell::add_constraint(short val_restrict)
     return UPDATED;
 }
 
-void NewCell::get_remaining_candidates(short val, std::vector<short> &remaining_digits) const
+void Cell::get_remaining_candidates(short val, std::vector<short> &remaining_digits) const
 {
     remaining_digits.clear();
     for (const auto &k : possible_digits_)
@@ -67,7 +67,7 @@ void NewCell::get_remaining_candidates(short val, std::vector<short> &remaining_
             remaining_digits.emplace_back(k);
 }
 
-const std::unordered_set<short> &NewCell::get_candidates() const
+const std::unordered_set<short> &Cell::get_candidates() const
 {
     return possible_digits_;
 }

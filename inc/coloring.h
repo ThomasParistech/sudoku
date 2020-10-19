@@ -12,8 +12,8 @@
 #include <unordered_set>
 #include <vector>
 
-#include "new_cell.h"
-#include "new_square.h"
+#include "cell.h"
+#include "square.h"
 #include "val_key.h"
 
 class Coloring
@@ -31,8 +31,8 @@ public:
     /// @param columns 9 columns
     /// @param squares 9 squares
     /// @param output_cells_to_add Keys of the cells to set at @p val
-    void do_coloring(short val, const std::array<NewCell, 81> &cells, const std::array<NewLine, 9> &rows,
-                     const std::array<NewLine, 9> &columns, const std::array<NewSquare, 9> &squares,
+    void do_coloring(short val, const std::array<Cell, 81> &cells, const std::array<Line, 9> &rows,
+                     const std::array<Line, 9> &columns, const std::array<Square, 9> &squares,
                      std::vector<ValKey> &output_cells_to_add);
 
 private:
@@ -47,8 +47,8 @@ private:
     /// @param rows 9 rows
     /// @param columns 9 columns
     /// @param squares 9 squares
-    void extract_all_pairs(short val, const std::array<NewCell, 81> &cells, const std::array<NewLine, 9> &rows,
-                           const std::array<NewLine, 9> &columns, const std::array<NewSquare, 9> &squares);
+    void extract_all_pairs(short val, const std::array<Cell, 81> &cells, const std::array<Line, 9> &rows,
+                           const std::array<Line, 9> &columns, const std::array<Square, 9> &squares);
 
     struct ValidityChecker
     {

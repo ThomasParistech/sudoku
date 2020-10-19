@@ -7,7 +7,7 @@
 #ifndef SUDOKU_SOLVER_H
 #define SUDOKU_SOLVER_H
 
-#include "new_matrix.h"
+#include "matrix.h"
 #include "sudoku_displayer.h"
 
 class SudokuSolver
@@ -23,7 +23,8 @@ public:
 private:
     std::string output_filename_csv_;
 
-    NewMatrix matrix_;
+
+    Matrix matrix_;
     SudokuDisplayer displayer_;
 
     std::vector<ValKey> cells_tmp_;
