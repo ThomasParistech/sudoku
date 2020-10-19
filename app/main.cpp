@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include <sudoku_solver.h>
+#include <timer.h>
 
 namespace boost_po = boost::program_options;
 namespace bfs = boost::filesystem;
@@ -23,7 +24,7 @@ struct Config
 bool parse_command_line(int argc, char *argv[], Config &config)
 {
     const std::string short_program_desc(
-        "");
+        "Solve Sudoku Grid");
 
     const std::string long_program_desc(
         short_program_desc +
@@ -90,9 +91,13 @@ int main(int argc, char **argv)
     if (!parse_command_line(argc, argv, config))
         return 1;
 
-    SudokuSolver solver(config.output_dir_path);
-    if (!solver.solve_grid(config.input_filename_csv))
-        return 2;
+    {
+        Timer timer("[Solve Sudoku]", Timer::MS);
+
+        SudokuSolver solver(config.output_dir_path);
+        if (!solver.solve_grid(config.input_filename_csv))
+            return 2;
+    }
 
     return 0;
 }
