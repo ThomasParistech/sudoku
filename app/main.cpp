@@ -90,7 +90,9 @@ int main(int argc, char **argv)
     if (!parse_command_line(argc, argv, config))
         return 1;
 
-    SudokuSolver solver;
-    solver.solve_grid(config.input_filename_csv);
+    SudokuSolver solver(config.output_dir_path);
+    if (!solver.solve_grid(config.input_filename_csv))
+        return 2;
+
     return 0;
 }

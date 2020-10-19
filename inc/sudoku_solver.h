@@ -14,15 +14,15 @@ class SudokuSolver
 {
 public:
     /// @brief Constructor
-    SudokuSolver() = default;
+    SudokuSolver(const std::string &output_dir_path = "");
 
-    void solve_grid(const std::string &input_filename_csv);
-
-    void export_to_csv() const;
+    bool solve_grid(const std::string &input_filename_csv,
+                    bool display = true, bool use_backtracking_only = false);
 
 private:
-    std::string output_filename_csv_;
+    void export_to_csv(const std::array<short, 81> &solution) const;
 
+    std::string output_dir_path_;
 
     Matrix matrix_;
     SudokuDisplayer displayer_;

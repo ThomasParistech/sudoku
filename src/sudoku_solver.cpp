@@ -4,15 +4,21 @@
  * 2020 Thomas Rouch                                                                                                 *
  *********************************************************************************************************************/
 
+#include <boost/filesystem.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
 #include "back_tracking_solver.h"
 #include "sudoku_solver.h"
-#include "timer.h"
 
-void SudokuSolver::solve_grid(const std::string &input_filename_csv)
+namespace bfs = boost::filesystem;
+
+SudokuSolver::SudokuSolver(const std::string &output_dir_path) : output_dir_path_(output_dir_path)
+{
+}
+
+bool SudokuSolver::solve_grid(const std::string &input_filename_csv, bool display, bool use_backtracking_only)
 {
 
     // Load
@@ -34,21 +40,22 @@ void SudokuSolver::solve_grid(const std::string &input_filename_csv)
                 init_cells.emplace_back(val - 1, 9 * i + j); // val-1 because the value is shifted to 0:8
         }
     }
-    ////////////////////////////////
+    if (use_backtracking_only)
+    {
+        BackTrackingSolver backtracking;
+        if (!backtracking.solve(init_cells))
+            return false;
 
-    BackTrackingSolver backtracking;
-    backtracking.solve(init_cells);
-    displayer_.found_cells(backtracking.get_cells());
+        export_to_csv(backtracking.get_cells());
+        if (display)
+            displayer_.found_cells(backtracking.get_cells());
+        return true;
+    }
 
-    ////////////////////////////////
-
-    // Solve
     matrix_.reset();
     for (auto it = init_cells.cbegin(); it != init_cells.end(); it++)
     {
-        // displayer_.candidate_cells_containing_val(2, matrix_.get_cells());
         matrix_.set_value(it->val, it->key, cells_to_lock_, cells_to_add_);
-
         while (!cells_to_lock_.empty() || !cells_to_add_.empty())
         {
             // Add new values
@@ -76,24 +83,33 @@ void SudokuSolver::solve_grid(const std::string &input_filename_csv)
         }
     }
 
-    displayer_.found_cells(matrix_.get_cells());
+    BackTrackingSolver backtracking;
+    if (!backtracking.solve(matrix_.get_cells()))
+        return false;
 
-    BackTrackingSolver backtracking_2;
-    backtracking_2.solve(matrix_.get_cells());
-    displayer_.found_cells(backtracking_2.get_cells());
+    export_to_csv(backtracking.get_cells());
+    if (display)
+        displayer_.found_cells(backtracking.get_cells());
+    return true;
 }
 
-void SudokuSolver::export_to_csv() const
+void SudokuSolver::export_to_csv(const std::array<short, 81> &solution) const
 {
-    const auto cells_ = matrix_.get_cells();
+    static int count = 0;
+    std::stringstream ss;
+    ss << "solved_sudoku_" << count++ << ".csv";
+    const std::string output_filename_csv = (bfs::path(output_dir_path_) / ss.str()).string();
+
     // Value + 1 because the value is shifted to [0;8]
-    std::ofstream file(output_filename_csv_);
+    std::ofstream file(output_filename_csv);
     int key = 0;
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 8; j++)
-            file << cells_[key++].get_value() + 1 << ";";
-        file << cells_[key++].get_value() + 1 << std::endl;
+            file << solution[key++] + 1 << ";";
+        file << solution[key++] + 1 << std::endl;
     }
     file.close();
+
+    std::cout << "Sudoku has been solved and saved to " << output_filename_csv << std::endl;
 }
