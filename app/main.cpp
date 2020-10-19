@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         return 1;
 
     {
-        Timer timer("[Solve Sudoku]", Timer::MS);
+        Timer timer("Solve Sudoku", Timer::MS);
 
         SudokuSolver solver(config.output_dir_path);
         if (!solver.solve_grid(config.input_filename_csv))
