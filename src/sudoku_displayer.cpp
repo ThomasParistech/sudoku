@@ -43,11 +43,16 @@ void SudokuDisplayer::print_grid(CellToCharCb char_cb, bool use_long_line) const
 void SudokuDisplayer::found_cells(const std::array<short, 81> &cells)
 {
     static int count = 0;
-    std::cout << count++ << ") "
-              << "Found cells" << std::endl;
+    if (count++ > 1)
+        std::cout << count++ << ") ";
+    std::cout << "Found cells" << std::endl;
 
     const auto char_cb = [&cells](std::stringstream &ss, int i, int j) {
-        ss << cells[9 * i + j] + 1;
+        const auto val = cells[9 * i + j];
+        if (val >= 0)
+            ss << val + 1;
+        else
+            ss << " ";
     };
 
     print_grid(char_cb);
@@ -56,8 +61,9 @@ void SudokuDisplayer::found_cells(const std::array<short, 81> &cells)
 void SudokuDisplayer::found_cells(const std::array<Cell, 81> &cells)
 {
     static int count = 0;
-    std::cout << count++ << ") "
-              << "Found cells" << std::endl;
+    if (count++ > 1)
+        std::cout << count++ << ") ";
+    std::cout << "Found cells" << std::endl;
 
     const auto char_cb = [&cells](std::stringstream &ss, int i, int j) {
         const auto &cell = cells[9 * i + j];
@@ -70,15 +76,35 @@ void SudokuDisplayer::found_cells(const std::array<Cell, 81> &cells)
     print_grid(char_cb);
 }
 
+void SudokuDisplayer::found_cells(const std::vector<ValKey> &cells)
+{
+    static int count = 0;
+    if (count++ > 1)
+        std::cout << count++ << ") ";
+    std::cout << "Found cells" << std::endl;
+
+    std::array<short, 81> grid;
+    grid.fill(-1);
+    for (const auto &vk : cells)
+        grid[vk.key] = vk.val;
+
+    const auto char_cb = [&grid](std::stringstream &ss, int i, int j) {
+        const auto val = grid[9 * i + j];
+        if (val >= 0)
+            ss << val + 1;
+        else
+            ss << " ";
+    };
+
+    print_grid(char_cb);
+}
+
 void SudokuDisplayer::candidates_per_cell(const std::array<Cell, 81> &cells)
 {
     static int count = 0;
-
-    if (count > 12)
-        return;
-
-    std::cout << count++ << ") "
-              << "Number of possible candidates in each cell" << std::endl;
+    if (count++ > 1)
+        std::cout << count++ << ") ";
+    std::cout << "Number of possible candidates in each cell" << std::endl;
 
     const auto char_cb = [&cells](std::stringstream &ss, int i, int j) {
         const auto &cell = cells[9 * i + j];
@@ -105,12 +131,9 @@ void SudokuDisplayer::candidates_per_cell(const std::array<Cell, 81> &cells)
 void SudokuDisplayer::num_candidates_per_cell(const std::array<Cell, 81> &cells)
 {
     static int count = 0;
-
-    if (count > 12)
-        return;
-
-    std::cout << count++ << ") "
-              << "Number of possible candidates in each cell" << std::endl;
+    if (count++ > 1)
+        std::cout << count++ << ") ";
+    std::cout << "Number of possible candidates in each cell" << std::endl;
 
     const auto char_cb = [&cells](std::stringstream &ss, int i, int j) {
         const auto &cell = cells[9 * i + j];
@@ -127,9 +150,9 @@ void SudokuDisplayer::candidate_cells_containing_val(short val,
                                                      const std::array<Cell, 81> &cells)
 {
     static int count = 0;
-    std::cout << count++ << ") "
-              << "Candidate cells that could take the value "
-              << val + 1 << std::endl;
+    if (count++ > 1)
+        std::cout << count++ << ") ";
+    std::cout << "Candidate cells that could take the value " << val + 1 << std::endl;
 
     const auto char_cb = [&cells, &val](std::stringstream &ss, int i, int j) {
         const auto &cell = cells[9 * i + j];
@@ -146,9 +169,9 @@ void SudokuDisplayer::num_candidates_per_cell_containing_val(short val,
                                                              const std::array<Cell, 81> &cells)
 {
     static int count = 0;
-    std::cout << count++ << ") "
-              << "Number of possible candidates in each non-found cell containing a "
-              << val + 1 << std::endl;
+    if (count++ > 1)
+        std::cout << count++ << ") ";
+    std::cout << "Number of possible candidates in each non-found cell containing a " << val + 1 << std::endl;
 
     const auto char_cb = [&cells, &val](std::stringstream &ss, int i, int j) {
         const auto &cell = cells[9 * i + j];

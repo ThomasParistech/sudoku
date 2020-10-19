@@ -12,17 +12,23 @@
 #include "cell.h"
 #include "square.h"
 
+/// @brief Class displaying sudoku grids, whether they are solved or in progress
 class SudokuDisplayer
 {
 public:
     SudokuDisplayer() = default;
 
     /// @brief Displays in the console the grid wih the values that have been found
+    /// @param cells 9x9 grid of cells
     void found_cells(const std::array<short, 81> &cells);
 
     /// @brief Displays in the console the grid wih the values that have been found
     /// @param cells 9x9 grid of cells
     void found_cells(const std::array<Cell, 81> &cells);
+
+    /// @brief Displays in the console the grid wih the values that have been found
+    /// @param cells 9x9 grid of cells
+    void found_cells(const std::vector<ValKey> &cells);
 
     void candidates_per_cell(const std::array<Cell, 81> &cells);
 
